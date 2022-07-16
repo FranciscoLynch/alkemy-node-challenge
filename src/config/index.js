@@ -27,14 +27,20 @@ const jwt_time = process.env.JWT_TIME;
 const express = require('express');
 const app = express();
 const cors = require('cors');   
+const helmet = require('helmet'); 
+const chalk = require('chalk'); 
 
 function main() { 
 
-	app.use(cors());
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: true })); 
+
+	app.use(cors()); 
+	app.use(helmet());
 
 	// eslint-disable-next-line no-unused-vars
 	app.listen(port, (req, res) => {
-		console.log(`Server running in port ${port}`);
+		console.log(chalk.bgGreen(`Server running in port ${port}`));
 	});
 } 
 
