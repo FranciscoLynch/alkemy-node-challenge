@@ -1,10 +1,5 @@
-const express = require('express');
-const app = express();  
-const { port } = require('./src/config/cfg');
+const { main } = require('./src/config');
+
+main();
 
 
-function main() {
-    app.listen(port, (req, res) => {
-        console.log(`Server running in port ${port}`);
-    });
-}
