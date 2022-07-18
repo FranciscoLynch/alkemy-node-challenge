@@ -1,9 +1,10 @@
-/* eslint-disable no-empty */
 /* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 const chalk = require('chalk');
 const bcrypt = require('bcrypt');
 const { User } = require('../models/user');
+// SendGrid
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // JWT 
 const jwt = require('jsonwebtoken');
 
@@ -24,6 +25,22 @@ async function register(req, res) {
 				password: pwHashed
 			});
 
+			const msg = {
+				to: email,
+				from: 'lynch_francisco_w@hotmail.com',
+				subject: 'Welcome to the Alkemy Challenge of Francisco :)',
+				text: 'Thank you for register! It was made with love.'
+			};
+
+			(async function (msg) {
+				try {
+					await sgMail.send(msg);
+					console.log(chalk.bgGreen('Email sent'));
+				} catch (error) {
+					console.error(error);
+				}
+			})(msg);
+
 			const token = jwt.sign({
 				data: email
 			}, process.env.JWT_KEY, { expiresIn: process.env.JWT_TIME });
@@ -35,7 +52,7 @@ async function register(req, res) {
 
 		} else {
 			res.status(404).json({
-				msg: 'The user couldnt be created' 
+				msg: 'The user couldnt be created'
 			});
 		}
 
@@ -70,14 +87,15 @@ async function login(req, res) {
 					data: email
 				}, process.env.JWT_KEY, { expiresIn: process.env.JWT_TIME });
 
+				console.log(chalk.bgGreen('Login successful'));
 				res.status(201).json({
-					msg: 'Token',
+					msg: 'Login successful',
 					token: token
 				});
 			} else {
-				console.log(chalk.bgRed('The password is different'));
+				console.log(chalk.bgRed('The password is wrong'));
 				res.status(404).json({
-					msg: 'The password is different',
+					msg: 'The password is wrong',
 				});
 			}
 		});
