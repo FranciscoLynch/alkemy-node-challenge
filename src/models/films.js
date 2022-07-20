@@ -3,9 +3,9 @@ const { DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../database/conn');
 
 // eslint-disable-next-line no-undef
-class Character extends Model { }
+class Film extends Model { }
 
-Character.init(
+Film.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -16,29 +16,26 @@ Character.init(
 			type: DataTypes.STRING,
 
 		},
-		name: {
+		title: {
 			type: DataTypes.STRING,
 		},
-		age: {
-			type: DataTypes.INTEGER,
+		creationDate: {
+			type: DataTypes.DATE,
 			
 		},
-		weight: {
-			type: DataTypes.FLOAT,
-		},
-		story: {
-			type: DataTypes.STRING,
+		score: {
+			type: DataTypes.INTEGER,
 		}
 	},
 	{
 		sequelize,
-		modelName: 'character',
+		modelName: 'films',
 		timestamps: false
 	}
 );
-/* Movie or serie associated
+/* Characters associated
 */ 
 
 module.exports = { 
-	Character
+	Film
 };

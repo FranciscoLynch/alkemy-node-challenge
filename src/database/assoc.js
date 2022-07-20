@@ -1,22 +1,18 @@
 const { Character } = require('../models/character');
 const { Film } = require('../models/film');
-const { Gender } = require('../models/gender'); 
+const { Genre } = require('../models/genre'); 
+const { Char_in_film } = require('../models/character-in-film');
 require('./conn');
  
-Character.hasMany(Film, {
+Character.hasMany(Char_in_film, {
 	onDelete: 'cascade',
-	foreignKey: 'characterId'
 });
-Film.belongsTo(Character);
+Char_in_film.belongsTo(Character);
 
-Film.hasMany(Character, {
+Film.hasMany(Char_in_film, {
 	onDelete: 'cascade',
-	foreignKey: 'filmId'
 }); 
-Character.belongsTo(Film); 
+Char_in_film.belongsTo(Film);
 
-Gender.hasMany(Film, {
-	onDelete: 'cascade',
-	foreignKey: 'genderId'
-});
-Film.belongsTo(Gender);
+Genre.hasMany(Film);
+Film.belongsTo(Genre);

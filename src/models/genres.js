@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 const { DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../database/conn');
 
-class User extends Model { }
+// eslint-disable-next-line no-undef
+class Genre extends Model { }
 
-User.init(
+Genre.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -12,22 +14,21 @@ User.init(
 		},
 		name: {
 			type: DataTypes.STRING,
+
 		},
-		lastname: {
+		image: {
 			type: DataTypes.STRING,
-		},
-		email: {
-			type: DataTypes.STRING,
-		},
-		password: {
-			type: DataTypes.STRING,
-		},
+		}
 	},
 	{
 		sequelize,
-		modelName: 'user',
+		modelName: 'genres',
 		timestamps: false
 	}
 );
+/*  Movie or serie associated associated
+*/
 
-module.exports = { User };
+module.exports = { 
+	Genre
+};

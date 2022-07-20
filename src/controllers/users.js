@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const chalk = require('chalk');
 const bcrypt = require('bcrypt');
-const { User } = require('../models/user');
+const { User } = require('../models/users');
 // SendGrid
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -9,7 +9,6 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const jwt = require('jsonwebtoken');
 
 // https://stackoverflow.com/questions/64713565/accessing-non-existent-property-padlevels-of-module-exports-inside-circular-de
-// The reason why i dont do a main file config with all the .env variables >:(
 
 async function register(req, res) {
 	const { name, lastname, email, password } = req.body;
@@ -22,7 +21,8 @@ async function register(req, res) {
 				name: name,
 				lastname: lastname,
 				email: email,
-				password: pwHashed
+				password: pwHashed,
+				admin: false
 			});
 
 			const msg = {
@@ -108,9 +108,6 @@ async function login(req, res) {
 		});
 	}
 }
-
-
-
 
 module.exports = {
 	register,

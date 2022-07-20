@@ -11,13 +11,13 @@ const app = express();
 const cors = require('cors');
 const helmet = require('helmet');
 const chalk = require('chalk');
-const apiRouter = require('../routes/routes');
+const apiRouter = require('../routes/api');
 
 function main() {
 
 	require('../database/conn');
-	require('../database/sync');
 	require('../database/assoc');
+	require('../database/sync');
 
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
@@ -25,8 +25,8 @@ function main() {
 	app.use(cors());
 	app.use(helmet());
 
-	app.use(apiRouter);
-
+	app.use(apiRouter); 
+	
 	app.listen(port, () => {
 		console.log(chalk.bgGreen(`Server running in port ${port}`));
 	});
