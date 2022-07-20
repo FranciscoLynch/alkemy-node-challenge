@@ -1,7 +1,7 @@
 const { Film } = require('../models/films');
 const chalk = require('chalk');
 
-async function filmsList(req, res) {
+async function filmsList(_req, res) {
 	try {
 		const list = await Film.findAll({ attributes: ['image', 'title', 'creationDate'] });
 		res.status(202).json({

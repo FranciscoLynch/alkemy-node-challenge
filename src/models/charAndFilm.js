@@ -14,7 +14,7 @@ CharAndfilm.init(
 	},
 	{
 		sequelize,
-		modelName: 'charAndFilms',
+		modelName: 'charandfilms',
 		timestamps: false
 	}
 );

@@ -1,18 +1,18 @@
-const { Character } = require('../models/character');
-const { Film } = require('../models/film');
-const { Genre } = require('../models/genre'); 
-const { Char_in_film } = require('../models/character-in-film');
+const { Character } = require('../models/characters');
+const { Film } = require('../models/films');
+const { Genre } = require('../models/genres'); 
+const { CharAndfilm } = require('../models/charAndFilm');
 require('./conn');
  
-Character.hasMany(Char_in_film, {
+Character.hasMany(CharAndfilm, {
 	onDelete: 'cascade',
 });
-Char_in_film.belongsTo(Character);
+CharAndfilm.belongsTo(Character);
 
-Film.hasMany(Char_in_film, {
+Film.hasMany(CharAndfilm, {
 	onDelete: 'cascade',
 }); 
-Char_in_film.belongsTo(Film);
+CharAndfilm.belongsTo(Film);
 
 Genre.hasMany(Film);
 Film.belongsTo(Genre);

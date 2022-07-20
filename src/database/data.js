@@ -1,8 +1,8 @@
-const { Character } = require('../models/character');
-const { Film } = require('../models/film');
-const { Genre } = require('../models/genre');
-const { User } = require('../models/user');
-const { Char_in_film } = require('../models/character-in-film');
+const { Character } = require('../models/characters');
+const { Film } = require('../models/films');
+const { Genre } = require('../models/genres');
+const { User } = require('../models/users');
+const { CharAndfilm } = require('../models/charAndFilm');
 const chalk = require('chalk');
 
 
@@ -130,11 +130,11 @@ const filmsData = async () => {
 	}
 };
 
-const CharInFilm = async () => {
+const CharAndfilmData = async () => {
 
 	try {
 
-		const added = await Char_in_film.findOne({
+		const added = await CharAndfilm.findOne({
 			where: {
 				characterId: 1,
 				filmId: 2
@@ -145,17 +145,17 @@ const CharInFilm = async () => {
 			console.log(chalk.bgRed('Relation between the character and films predeterminated is already created'));
 			return;
 		} else {
-			await Char_in_film.create({
+			await CharAndfilm.create({
 				characterId: 1,
 				filmId: 2
 			});
 
-			await Char_in_film.create({
+			await CharAndfilm.create({
 				characterId: 2,
 				filmId: 3
 			});
 
-			await Char_in_film.create({
+			await CharAndfilm.create({
 				characterId: 3,
 				filmId: 1
 			});
@@ -202,5 +202,5 @@ module.exports = {
 	genreData,
 	charactersData,
 	filmsData,
-	CharInFilm
+	CharAndfilmData
 };

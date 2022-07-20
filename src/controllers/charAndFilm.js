@@ -1,9 +1,9 @@
 const { CharAndfilm } = require('../models/charAndFilm');
 const chalk = require('chalk');
 
-async function charAndFilmList(req, res) {
+async function charAndFilmList(_req, res) {
 	try {
-		const list = await CharAndfilm.findAll({ attributes: ['image', 'name'] });
+		const list = await CharAndfilm.findAll();
 		res.status(202).json({
 			msg: 'List of characters and the films related',
 			list: list
@@ -15,23 +15,23 @@ async function charAndFilmList(req, res) {
 }
 
 async function createCharAndFilm(req, res) {
-	const { image, name, age, weight, story } = req.body;
+	const { characterId, filmId } = req.body;
 
 	try {
 		await CharAndfilm.create({
-			characterId: 1,
-			filmId: 2
+			characterId: characterId,
+			filmId: filmId
 		});
-		res.status(202).send('Character added successfully');
+		res.status(202).send('Character and film related added successfully');
 	} catch (error) {
-		console.log(chalk.bgRed('The character couldnt be added, theres an error', error));
-		res.status(404).send('The character couldnt be added, theres an error', error);
+		console.log(chalk.bgRed('The characters and films related couldnt be added, theres an error', error));
+		res.status(404).send('The characters and films related couldnt be added, theres an error');
 	}
 
 }
 
 async function editCharAndFilm(req, res) {
-	const { id, image, name, age, weight, story } = req.body;
+	const { id, characterId, filmId } = req.body;
 
 	try {
 		await CharAndfilm.findOne({
@@ -40,18 +40,15 @@ async function editCharAndFilm(req, res) {
 			}
 		}).then((user) => {
 			user.update({
-				image: image,
-				name: name,
-				age: age,
-				weight: weight,
-				story: story
+				characterId: characterId,
+				filmId: filmId
 			});
 		});
 
-		res.status(202).send('Character edited successfully');
+		res.status(202).send('Character and film related edited successfully');
 	} catch (error) {
-		console.log(chalk.bgRed('The character couldnt be edited, theres an error', error));
-		res.status(404).send('The character couldnt be edited, theres an error');
+		console.log(chalk.bgRed('The characters and films related couldnt be edited, theres an error', error));
+		res.status(404).send('The characters and films related couldnt be edited, theres an error');
 	}
 }
 
@@ -64,10 +61,10 @@ async function eliminateCharAndFilm(req, res) {
 				id: id
 			}
 		});
-		res.status(202).send('Character removed successfully');
+		res.status(202).send('Character and film related removed successfully');
 	} catch (error) {
-		console.log(chalk.bgRed('The character couldnt be removed, theres an error', error));
-		res.status(404).send('The character couldnt be removed, theres an error', error);
+		console.log(chalk.bgRed('The characters and films related couldnt be removed, theres an error', error));
+		res.status(404).send('The characters and films related couldnt be removed, theres an error', error);
 	}
 }
 

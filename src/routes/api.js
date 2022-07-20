@@ -3,7 +3,7 @@ const router = require('express').Router();
 const userRouter = require('../routes/users');
 const characterRouter = require('../routes/characters');
 const filmRouter = require('../routes/films');
-const charInFilmRouter = require('../routes/charInFilm');
+const charInFilmRouter = require('../routes/charAndFilm');
 const genreRouter = require('../routes/genres');
 
 router.use(userRouter);

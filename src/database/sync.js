@@ -18,7 +18,7 @@ sync();
 	await data.genreData();
 	await data.charactersData();
 	await data.filmsData();
-	await data.CharInFilm();
+	await data.CharAndfilmData();
 })(data);
 
 
