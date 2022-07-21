@@ -8,7 +8,7 @@ async function createUser(name, lastname, email, pwHashed) {
 		lastname: lastname,
 		email: email,
 		password: pwHashed,
-		admin: false
+		admin: true
 	});
 
 	return x;

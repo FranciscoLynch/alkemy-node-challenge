@@ -20,9 +20,10 @@ async function register(req, res) {
 
 		const pwHashed = await hashThePassword(password);
 
+		console.log(pwHashed);
 		if (pwHashed !== undefined) {
 
-			await createUser(name, lastname, email, password);
+			await createUser(name, lastname, email, pwHashed);
 
 			sendEmail(email);
 

@@ -119,6 +119,9 @@ async function editFilm(req, res) {
 				score: score,
 				genreId: genreId
 			});
+		}).catch(error => {
+			console.log(chalk.bgRed('The film couldnt be edited, theres an error', error));
+			res.status(500).send('The film couldnt be edited, theres an error');
 		});
 
 		res.status(202).send('film edited successfully');

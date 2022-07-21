@@ -53,23 +53,32 @@ const isLogged = (req, res, next) => {
 
 	const token = req.headers.authorization.replace('Bearer ', '');
 
-	if (token) {
-		next();
-	} else {
-		console.log(chalk.bgRed('You are not logged in'));
-		res.status(401).send('You are not logged in');
+	if (!req.header('Authorization')) {
+		return res.status(401).send('Must be logged in');
 	}
+
+	if (!token) {
+		console.log(chalk.bgRed('Must be logged in'));
+		return res.status(401).send('Must be logged in');
+	}
+
+	jwt.verify(token, process.env.JWT_KEY, (err, user) => {
+		if (err) return res.status(401).send('Token is not valid');
+
+		req.user = user;
+		next();
+	});
 
 };
 
 const isAdmin = async (req, res, next) => {
-	
+
 	const token = req.headers.authorization.replace('Bearer ', '');
-
+	
 	const data = jwt.decode(token, process.env.JWT_KEY);
-
-	const email = data.email;
-
+	
+	const email = data.data;
+	
 	const wasFound = await User.findOne({
 		where: {
 			email: {

@@ -9,6 +9,8 @@ function hashThePassword(password) {
 
 function compareThePassword(email, password, passwordHashed, res) {
 
+	console.log('password ', password);
+	console.log('passwordHashed ',passwordHashed);
 	bcrypt.compare(password, passwordHashed, (err, result) => {
 
 		if (err) {
@@ -18,7 +20,7 @@ function compareThePassword(email, password, passwordHashed, res) {
 				error: err
 			});
 		}
-
+		console.log(result);
 		if (result) {
 			const token = theToken(email);
 
@@ -41,7 +43,7 @@ function compareThePassword(email, password, passwordHashed, res) {
 
 }
 
-module.export = {
+module.exports = {
 	hashThePassword,
 	compareThePassword
 };

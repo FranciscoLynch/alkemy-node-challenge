@@ -43,6 +43,9 @@ async function editCharAndFilm(req, res) {
 				characterId: characterId,
 				filmId: filmId
 			});
+		}).catch(error => {
+			console.log(chalk.bgRed('The characters and films related couldnt be edited, theres an error', error));
+			res.status(500).send('The characters and films related couldnt be edited, theres an error');
 		});
 
 		res.status(201).send('Character and film related edited successfully');
