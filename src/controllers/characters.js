@@ -30,7 +30,7 @@ async function charactersList(req, res) {
 				attributes: ['image', 'name']
 			});
 
-			return res.status(202).json({
+			return res.status(200).json({
 				msg: 'List of characters',
 				list: charactersList
 			});
@@ -42,7 +42,7 @@ async function charactersList(req, res) {
 				attributes: ['image', 'name'],
 			});
 
-			return res.status(202).json({
+			return res.status(200).json({
 				msg: 'List of characters',
 				list: characterList
 			});
@@ -52,14 +52,14 @@ async function charactersList(req, res) {
 			attributes: ['image', 'name'],
 		});
 
-		res.status(202).json({
+		res.status(200).json({
 			msg: 'List of characters',
 			list: characterList
 		});
 
 	} catch (error) {
 		console.log(chalk.bgRed('The list of characters couldnt be sent, theres an error', error));
-		res.status(404).send('The list of characters couldnt be sent, theres an error');
+		res.status(500).send('The list of characters couldnt be sent, theres an error');
 	}
 }
 
@@ -97,13 +97,13 @@ async function characterDetail(req, res) {
 			filmList
 		};
 
-		res.status(202).json({
+		res.status(200).json({
 			msg: 'Character',
 			detail: characterAndFilmDetail,
 		});
 	} catch (error) {
 		console.log(chalk.bgRed('The character couldnt be found, theres an error', error));
-		res.status(404).send('The character couldnt be found, theres an error');
+		res.status(500).send('The character couldnt be found, theres an error');
 	}
 }
 
@@ -118,10 +118,10 @@ async function createCharacter(req, res) {
 			weight: weight,
 			story: story
 		});
-		res.status(202).send('Character added successfully');
+		res.status(201).send('Character added successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The character couldnt be added, theres an error', error));
-		res.status(404).send('The character couldnt be added, theres an error', error);
+		res.status(500).send('The character couldnt be added, theres an error', error);
 	}
 }
 
@@ -143,10 +143,10 @@ async function editCharacter(req, res) {
 			});
 		});
 
-		res.status(202).send('Character edited successfully');
+		res.status(201).send('Character edited successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The character couldnt be edited, theres an error', error));
-		res.status(404).send('The character couldnt be edited, theres an error');
+		res.status(500).send('The character couldnt be edited, theres an error');
 	}
 }
 
@@ -159,10 +159,10 @@ async function eliminateCharacter(req, res) {
 				id: id
 			}
 		});
-		res.status(202).send('Character removed successfully');
+		res.status(200).send('Character removed successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The character couldnt be removed, theres an error', error));
-		res.status(404).send('The character couldnt be removed, theres an error', error);
+		res.status(500).send('The character couldnt be removed, theres an error', error);
 	}
 }
 

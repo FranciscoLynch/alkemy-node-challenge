@@ -29,14 +29,14 @@ async function filmsList(req, res) {
 			return res.status(404).json({ msg: 'No films found' });
 		}
 
-		res.status(202).json({
+		res.status(200).json({
 			msg: 'List of films',
 			film: list
 		});
 
 	} catch (error) {
 		console.log(chalk.bgRed('The list of films couldnt be sended, theres an error', error));
-		res.status(404).send('The list of films couldnt be sended, theres an error');
+		res.status(500).send('The list of films couldnt be sended, theres an error');
 	}
 }
 
@@ -80,7 +80,7 @@ async function filmDetail(req, res) {
 		});
 	} catch (error) {
 		console.log(chalk.bgRed('The film couldnt be found, theres an error', error));
-		res.status(404).send('The film couldnt be found, theres an error');
+		res.status(500).send('The film couldnt be found, theres an error');
 	}
 }
 
@@ -98,7 +98,7 @@ async function createFilm(req, res) {
 		res.status(202).send('film added successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The film couldnt be added, theres an error', error));
-		res.status(404).send('The film couldnt be added, theres an error', error);
+		res.status(500).send('The film couldnt be added, theres an error', error);
 	}
 
 }
@@ -124,7 +124,7 @@ async function editFilm(req, res) {
 		res.status(202).send('film edited successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The film couldnt be edited, theres an error', error));
-		res.status(404).send('The film couldnt be edited, theres an error');
+		res.status(500).send('The film couldnt be edited, theres an error');
 	}
 }
 
@@ -140,7 +140,7 @@ async function eliminateFilm(req, res) {
 		res.status(202).send('film removed successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The film couldnt be removed, theres an error', error));
-		res.status(404).send('The film couldnt be removed, theres an error', error);
+		res.status(500).send('The film couldnt be removed, theres an error', error);
 	}
 }
 

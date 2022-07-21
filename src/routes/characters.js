@@ -1,15 +1,16 @@
 const router = require('express').Router(); 
 const { charactersList, characterDetail, createCharacter, editCharacter, eliminateCharacter } = require('../controllers/characters');
+const { isLogged, isAdmin }= require('../middlewares/users');
 
-router.get('/characters', charactersList);
+router.get('/characters', isLogged, charactersList);
  
-router.get('/character/detail/', characterDetail);
+router.get('/character/detail/', isLogged, characterDetail);
 
-router.post('/characters/add', createCharacter);
+router.post('/characters/add', isLogged, isAdmin, createCharacter);
 
-router.put('/characters/edit', editCharacter);
+router.put('/characters/edit', isLogged, isAdmin, editCharacter);
 
-router.delete('/characters/remove', eliminateCharacter);
+router.delete('/characters/remove', isLogged, isAdmin, eliminateCharacter);
 
 module.exports = router; 
 

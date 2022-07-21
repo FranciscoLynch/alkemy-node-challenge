@@ -1,12 +1,13 @@
 const { GenreList, createGenre, editGenre, eliminateGenre} = require('../controllers/genres');
+const { isLogged, isAdmin }= require('../middlewares/users');
 const router = require('express').Router();
 
-router.get('/genres', GenreList);
+router.get('/genres', isLogged, GenreList);
 
-router.post('/genre/add', createGenre);
+router.post('/genre/add', isLogged, isAdmin, createGenre);
 
-router.put('/genre/edit', editGenre);
+router.put('/genre/edit', isLogged, isAdmin, editGenre);
 
-router.delete('/genre/remove', eliminateGenre);
+router.delete('/genre/remove', isLogged, isAdmin, eliminateGenre);
 
 module.exports = router;

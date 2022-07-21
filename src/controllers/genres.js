@@ -10,7 +10,7 @@ async function GenreList(_req, res) {
 		});
 	} catch (error) {
 		console.log(chalk.bgRed('The list of genres couldnt be sent, theres an error', error));
-		res.status(404).send('The list of genres couldnt be sent, theres an error');
+		res.status(500).send('The list of genres couldnt be sent, theres an error');
 	}
 }
 
@@ -25,7 +25,7 @@ async function createGenre(req, res) {
 		res.status(202).send('Genre added successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The genre couldnt be added, theres an error', error));
-		res.status(404).send('The genre couldnt be added, theres an error');
+		res.status(500).send('The genre couldnt be added, theres an error');
 	}
 }
 
@@ -47,7 +47,7 @@ async function editGenre(req, res) {
 		res.status(202).send('Genre edited successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The genre couldnt be edited, theres an error', error));
-		res.status(404).send('The genre couldnt be edited, theres an error');
+		res.status(500).send('The genre couldnt be edited, theres an error');
 	}
 }
 
@@ -63,7 +63,7 @@ async function eliminateGenre(req, res) {
 		res.status(202).send('Genre removed successfully');
 	} catch (error) {
 		console.log(chalk.bgRed('The genre couldnt be removed, theres an error', error));
-		res.status(404).send('The genre couldnt be removed, theres an error', error);
+		res.status(500).send('The genre couldnt be removed, theres an error', error);
 	}
 }
 
