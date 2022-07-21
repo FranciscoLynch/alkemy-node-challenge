@@ -2,26 +2,11 @@
 const { Character } = require('../models/characters');
 const { CharAndfilm } = require('../models/charAndFilm');
 const { Film } = require('../models/films');
+const { Op } = require('sequelize');
 const chalk = require('chalk');
 
 async function charactersList(req, res) {
-	try {
-		const list = await Character.findAll({
-			attributes: ['image', 'name']
-		});
-
-		res.status(202).json({
-			msg: 'List of characters',
-			list: list
-		});
-	} catch (error) {
-		console.log(chalk.bgRed('The list of characters couldnt be sended, theres an error', error));
-		res.status(404).send('The list of characters couldnt be sended, theres an error');
-	}
-}
-
-async function characterDetail(req, res) {
-	const { name, age, idMovie, weight } = req.query;
+	const { name, age, movies, weight } = req.query;
 
 	const query = {};
 	if (name) query.name = name;
@@ -29,59 +14,98 @@ async function characterDetail(req, res) {
 	if (weight) query.weight = weight;
 
 	try {
-		const character = await Character.findOne({
-			where: query,
-		});
-		const filmsRelated = await CharAndfilm.findAll({
-			where: {
-				characterId: character.id
-			}
-		});
-
-		const filmsId = filmsRelated.map(() => {
-
-		});
-		// Como hacer para encontrar todas las peliculas si solo puedo ingresar un valor al buscar?
-		const theFilms = await Film.findAll({
-			where: {
-				id: filmsRelated[0].filmId
-			}
-		});
-		console.log('CHARACTER LOG', JSON.stringify(character));
-		console.log('FILM RELATED LOG', JSON.stringify(filmsRelated[0]));
-		console.log('FILMS LOG', JSON.stringify(theFilms));
-		// Search the character for the film in which participates
-		let filmIn;
-
-		if (idMovie) {
-			filmIn = await CharAndfilm.findAll({
+		if (movies) {
+			const listCharsFromThatFilm = await CharAndfilm.findAll({
 				where: {
-					id: idMovie,
+					filmId: movies
 				}
 			});
-			console.log(chalk.bgBlue(' ', filmIn));
+
+			const relatedFilms = await listCharsFromThatFilm.map(charAndFilm => charAndFilm.characterId);
+
+			query.id = { [Op.or]: relatedFilms };
+
+			const charactersList = await Character.findAll({
+				where: query,
+				attributes: ['image', 'name']
+			});
+
+			return res.status(202).json({
+				msg: 'List of characters',
+				list: charactersList
+			});
 		}
 
-		/* 
-				
-				const movies = relationsSelected; 
-				
-				console.log(chalk.bgBlue(typeof movies));
-				
-		 */
+		if (query) {
+			const characterList = await Character.findAll({
+				where: query,
+				attributes: ['image', 'name'],
+			});
+
+			return res.status(202).json({
+				msg: 'List of characters',
+				list: characterList
+			});
+		}
+
+		const characterList = await Character.findAll({
+			attributes: ['image', 'name'],
+		});
 
 		res.status(202).json({
-			msg: 'Character detail',
-			character: character,
-			film: 1
+			msg: 'List of characters',
+			list: characterList
+		});
+
+	} catch (error) {
+		console.log(chalk.bgRed('The list of characters couldnt be sent, theres an error', error));
+		res.status(404).send('The list of characters couldnt be sent, theres an error');
+	}
+}
+
+async function characterDetail(req, res) {
+	const { id } = req.query; 
+
+	try {
+		const character = await Character.findOne({
+			where: { id: id }
+		});
+
+		if (!character) {
+			return res.status(404).json({
+				msg: 'The character doesnt exist'
+			});
+		} 
+
+		const theFilmsRelated = await CharAndfilm.findAll({
+			where: {
+				characterId: id
+			}
+		});
+
+		const relatedFilmsId = await theFilmsRelated.map(charAndFilm => charAndFilm.filmId);
+
+		const query = {};
+		query.id = { [Op.or]: relatedFilmsId };
+ 
+		const filmList = await Film.findAll({
+			where: query
+		}); 
+
+		const characterAndFilmDetail = {
+			character,
+			filmList
+		};
+
+		res.status(202).json({
+			msg: 'Character',
+			detail: characterAndFilmDetail,
 		});
 	} catch (error) {
 		console.log(chalk.bgRed('The character couldnt be found, theres an error', error));
 		res.status(404).send('The character couldnt be found, theres an error');
 	}
 }
-
-
 
 async function createCharacter(req, res) {
 	const { image, name, age, weight, story } = req.body;
