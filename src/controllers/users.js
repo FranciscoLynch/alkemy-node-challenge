@@ -108,8 +108,64 @@ async function login(req, res) {
 		});
 	}
 }
+ 
+async function userList(_req, res) {
+	try {
+		const list = await User.findAll();
+		res.status(202).json({
+			msg: 'List of users',
+			list: list
+		});
+	} catch (error) {
+		console.log(chalk.bgRed('The list of users couldnt be sent, theres an error', error));
+		res.status(404).send('The list of users couldnt be sent, theres an error');
+	}
+}
+
+async function editUser(req, res) {
+	const { id, name, lastname, email, password } = req.body;
+
+	try {
+		await User.findOne({
+			where: {
+				id: id
+			}
+		}).then((user) => {
+			user.update({
+				name: name,
+				lastname: lastname,
+				email: email,
+				password: password
+			});
+		});
+
+		res.status(202).send('User edited successfully');
+	} catch (error) {
+		console.log(chalk.bgRed('The user couldnt be edited, theres an error', error));
+		res.status(404).send('The user couldnt be edited, theres an error');
+	}
+}
+
+async function eliminateUser(req, res) {
+	const { id } = req.body;
+
+	try {
+		await User.destroy({
+			where: {
+				id: id
+			}
+		});
+		res.status(202).send('User removed successfully');
+	} catch (error) {
+		console.log(chalk.bgRed('The user couldnt be removed, theres an error', error));
+		res.status(404).send('The user couldnt be removed, theres an error', error);
+	}
+}
 
 module.exports = {
 	register,
-	login
+	login,
+	userList,
+	editUser,
+	eliminateUser
 };
