@@ -1,16 +1,86 @@
 const { Film } = require('../models/films');
+const { Character } = require('../models/characters');
+const { CharAndfilm } = require('../models/charAndFilm');
+const { Op } = require('sequelize');
 const chalk = require('chalk');
 
-async function filmsList(_req, res) {
+async function filmsList(req, res) {
+	const { name, genre, order } = req.query;
+
+	const query = {};
+	let ordering = null;
+
+	if (order === 'ASC' || order === 'DESC') {
+		ordering = [['creationDate', order]];
+	}
+
+	if (name) query.title = name;
+	if (genre) query.genreId = genre;
+
 	try {
-		const list = await Film.findAll({ attributes: ['image', 'title', 'creationDate'] });
+
+		const list = await Film.findAll({
+			where: query,
+			attributes: ['image', 'title', 'creationDate'],
+			order: ordering
+		});
+
+		if (list.length === 0) {
+			return res.status(404).json({ msg: 'No films found' });
+		}
+
 		res.status(202).json({
 			msg: 'List of films',
-			list: list
+			film: list
 		});
+
 	} catch (error) {
 		console.log(chalk.bgRed('The list of films couldnt be sended, theres an error', error));
 		res.status(404).send('The list of films couldnt be sended, theres an error');
+	}
+}
+
+async function filmDetail(req, res) {
+	const { id } = req.query;
+
+	try {
+		const film = await Film.findOne({
+			where: { id: id }
+		});
+
+		if (!film) {
+			return res.status(404).json({
+				msg: 'The film doesnt exist'
+			});
+		}
+
+		const theCharsRelated = await CharAndfilm.findAll({
+			where: {
+				filmId: id
+			}
+		});
+
+		const relatedCharsId = await theCharsRelated.map(charAndFilm => charAndFilm.characterId);
+
+		const query = {};
+		query.id = { [Op.or]: relatedCharsId };
+
+		const characterList = await Character.findAll({
+			where: query
+		});
+
+		const characterAndFilmDetail = {
+			film,
+			characterList
+		};
+
+		res.status(202).json({
+			msg: 'Film',
+			detail: characterAndFilmDetail,
+		});
+	} catch (error) {
+		console.log(chalk.bgRed('The film couldnt be found, theres an error', error));
+		res.status(404).send('The film couldnt be found, theres an error');
 	}
 }
 
@@ -76,6 +146,7 @@ async function eliminateFilm(req, res) {
 
 module.exports = {
 	filmsList,
+	filmDetail,
 	createFilm,
 	editFilm,
 	eliminateFilm

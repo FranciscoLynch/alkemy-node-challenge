@@ -1,7 +1,9 @@
 const router = require('express').Router();
-const { filmsList, createFilm, editFilm, eliminateFilm } = require('../controllers/films');
+const { filmsList, filmDetail, createFilm, editFilm, eliminateFilm } = require('../controllers/films');
 
 router.get('/movies', filmsList);
+
+router.get('/movie/detail', filmDetail);
 
 router.post('/movies/add', createFilm);
 
