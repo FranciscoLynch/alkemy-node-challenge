@@ -52,6 +52,6 @@ https://documenter.getpostman.com/view/16622594/UzR1Lhpv
 
 ## Author ✒️
 
-* **Francisco Lynch** - [FranciscoLynch](https://gitlab.com/FranciscoLynch) 
+* **Francisco Lynch** - [FranciscoLynch](https://github.com/FranciscoLynch) 
 
 Challenge by [Alkemy](https://www.alkemy.org/)
