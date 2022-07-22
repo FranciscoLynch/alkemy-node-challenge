@@ -1,23 +1,25 @@
 {
   "name": "alkemy-node-challenge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend development challenge where an API was built to allow you to explore the world of Disney.",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "start": "node index.js",
     "lint": "eslint ./src",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha ./tests/*.test.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Francisco Lynch",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
     "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
